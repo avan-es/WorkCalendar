@@ -9,9 +9,11 @@ import java.util.List;
 @Component("dbEmployeeRepository")
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    Employee getUserByEmail(String email);
+    Employee findEmployeeByEmail(String email);
 
-    Employee getUserById(Long id);
+    Employee findEmployeeById(Long id);
 
-    List<Employee> getAll();
+    List<Employee> findAll();
+
+    void deleteByEmail(String email);
 }
