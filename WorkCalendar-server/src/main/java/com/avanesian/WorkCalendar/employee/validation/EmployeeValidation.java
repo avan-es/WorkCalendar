@@ -66,4 +66,11 @@ public class EmployeeValidation {
         }
     }
 
+    public void checkEmployeePresent(Long employeeId) {
+        Employee employee = employeeRepository.findEmployeeById(employeeId);
+        if (employee == null) {
+            throw new NotFoundException(String.format("Сотрудник с ID %d не найден.", employeeId));
+        }
+    }
+
 }
