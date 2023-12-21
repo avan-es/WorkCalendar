@@ -26,10 +26,17 @@ public class DayValidation {
         return day;
     }
 
-    public void checkDayTypePresent(Long dayId) {
-        Days days = daysRepository.findDaysById(dayId);
+    public void checkDayTypePresentByString(String dayType) {
+        Days days = daysRepository.findDaysByDayType(dayType);
+        if (days != null) {
+            throw new NotFoundException(String.format("Тип дня %d уже существует.", dayType));
+        }
+    }
+
+    public void checkDayTypePresentById(Long id) {
+        Days days = daysRepository.findDaysById(id);
         if (days == null) {
-            throw new NotFoundException(String.format("Тип дня с ID %d не найден.", dayId));
+            throw new NotFoundException(String.format("Тип дня с ID %d не найден.", id));
         }
     }
 }
