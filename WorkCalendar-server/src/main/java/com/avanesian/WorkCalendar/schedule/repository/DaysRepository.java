@@ -11,9 +11,10 @@ public interface DaysRepository extends JpaRepository<Days, Long> {
 
     Days findDaysByDayType(String dayType);
 
-    void deleteByDayType (String dayType);
+    void deleteById (Long dayTypeId);
 
     List<Days> findAll();
 
     Days findDaysById (Long id);
+
 }
