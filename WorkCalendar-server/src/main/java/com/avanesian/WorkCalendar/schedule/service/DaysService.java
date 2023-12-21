@@ -1,15 +1,16 @@
 package com.avanesian.WorkCalendar.schedule.service;
 
 
+import com.avanesian.WorkCalendar.schedule.dto.DaysDto;
 import com.avanesian.WorkCalendar.schedule.model.Days;
 
 import java.util.List;
 
 public interface DaysService {
 
-    Days addDayType(Days dayType);
+    DaysDto addDayType(Days dayType);
 
-    void deleteDayType(String dayType);
+    void deleteDayType(Long dayTypeId);
 
-    List<Days> getAllDaysType();
+    List<DaysDto> getAllDaysType();
 }
