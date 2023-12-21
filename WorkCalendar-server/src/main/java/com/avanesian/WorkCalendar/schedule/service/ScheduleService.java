@@ -11,7 +11,7 @@ public interface ScheduleService {
 
     ScheduleFullDTO addDayToSchedule (Schedule schedule);
 
-    void deleteDayFromSchedule (Schedule schedule);
+    void deleteDayFromSchedule (Long scheduleId);
 
     ScheduleFullDTO updateDayToSchedule (ScheduleFullDTO schedule);
 

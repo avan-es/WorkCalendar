@@ -9,7 +9,8 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class ScheduleShortDTO {
 
-    private String dayType;
-    private LocalDate date;
+    private Long id;
+    private Long dayType;
+    private LocalDate dateSchedule;
 
 }
