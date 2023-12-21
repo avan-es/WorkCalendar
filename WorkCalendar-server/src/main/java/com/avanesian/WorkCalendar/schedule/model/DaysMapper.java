@@ -2,6 +2,7 @@ package com.avanesian.WorkCalendar.schedule.model;
 
 import com.avanesian.WorkCalendar.enums.DaysType;
 import com.avanesian.WorkCalendar.exeptions.NotFoundException;
+import com.avanesian.WorkCalendar.schedule.dto.DaysDto;
 
 import java.util.Locale;
 
@@ -14,6 +15,12 @@ public enum DaysMapper {
         day.setDayType(day.getDayType().toUpperCase());
     }
 
+    public DaysDto daysToDaysDto (Days day) {
+        DaysDto daysDto = new DaysDto();
+        daysDto.setId(day.getId());
+        daysDto.setDayType(day.getDayType());
+        return daysDto;
+    }
     public String dayTypeEnumToString(DaysType daysType) {
         switch (daysType) {
             case WORK -> {
