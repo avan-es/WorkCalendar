@@ -1,9 +1,11 @@
 package com.avanesian.WorkCalendar.schedule.service;
 
+import com.avanesian.WorkCalendar.employee.model.Employee;
 import com.avanesian.WorkCalendar.employee.repository.EmployeeRepository;
 import com.avanesian.WorkCalendar.employee.validation.EmployeeValidation;
 import com.avanesian.WorkCalendar.schedule.dto.ScheduleFullDTO;
-import com.avanesian.WorkCalendar.schedule.dto.ScheduleShortDTO;
+import com.avanesian.WorkCalendar.schedule.dto.ScheduleDTO;
+import com.avanesian.WorkCalendar.schedule.model.Days;
 import com.avanesian.WorkCalendar.schedule.model.Schedule;
 import com.avanesian.WorkCalendar.schedule.model.ScheduleMapper;
 import com.avanesian.WorkCalendar.schedule.repository.DaysRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +29,18 @@ public class ScheduleServiceImpl implements ScheduleService{
     private final ScheduleRepository scheduleRepository;
     private final DayValidation dayValidation;
     private final EmployeeValidation employeeValidation;
+    private final EmployeeRepository employeeRepository;
+
+    private final DaysRepository daysRepository;
 
     @Override
     public ScheduleFullDTO addDayToSchedule(Schedule schedule) {
         checkSchedule(schedule);
+       // employeeRepository.findById(schedule.getEmployeeId());
         log.info(String.format("Добавлена запись в расписание."));
-        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(scheduleRepository.save(schedule));
+        Employee employee = employeeRepository.findEmployeeById(schedule.getEmployeeId());
+        Days dayType = daysRepository.findDaysById(schedule.getDayType());
+        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(scheduleRepository.save(schedule), employee, dayType);
     }
 
     @Override
@@ -41,30 +50,34 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public ScheduleFullDTO updateDayToSchedule(ScheduleFullDTO schedule) {
+    public ScheduleFullDTO updateDayToSchedule(ScheduleDTO schedule) {
         Schedule scheduleForUpdate = scheduleRepository.findScheduleById(schedule.getId());
+        Employee employee = employeeRepository.findEmployeeById(schedule.getEmployeeId());
+        Days dayType = daysRepository.findDaysById(schedule.getDayType());
         scheduleForUpdate.setDateSchedule(schedule.getDateSchedule());
         scheduleForUpdate.setDayType(schedule.getDayType());
         scheduleForUpdate.setEmployeeId(schedule.getEmployeeId());
         log.info(String.format("Срока расписания с ID %s успешно обновлены.", scheduleForUpdate.getId()));
-        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(scheduleRepository.save(scheduleForUpdate));
+        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(scheduleRepository.save(scheduleForUpdate), employee, dayType);
     }
 
     @Override
     public ScheduleFullDTO getDayFromScheduleById(Long scheduleId) {
-        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(
-                scheduleRepository.findScheduleById(scheduleId));
+        Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
+        Employee employee = employeeRepository.findEmployeeById(schedule.getEmployeeId());
+        Days dayType = daysRepository.findDaysById(schedule.getDayType());
+        return ScheduleMapper.INSTANT.scheduleToScheduleFullDTO(schedule, employee, dayType);
     }
 
     @Override
-    public List<ScheduleShortDTO> getEmployeeSchedule(Long employeeId, LocalDate from, LocalDate to) {
+    public List<ScheduleDTO> getEmployeeSchedule(Long employeeId, LocalDate from, LocalDate to) {
         return scheduleRepository.getSchedulesByEmployeeIdAndDateScheduleBetween(employeeId, from, to).stream()
                 .map(ScheduleMapper.INSTANT::scheduleToScheduleShortDTO)
                 .collect(Collectors.toList());
     }
 
     private void checkSchedule(Schedule schedule){
-        employeeValidation.checkEmployeePresent(schedule.getEmployeeId());
+        employeeValidation.isEmployeePresent(schedule.getEmployeeId());
         dayValidation.checkDayTypePresentById(schedule.getDayType());
     }
 }

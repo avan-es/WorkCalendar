@@ -1,10 +1,11 @@
 package com.avanesian.WorkCalendar.employee.dto;
 
-import com.avanesian.WorkCalendar.schedule.dto.ScheduleShortDTO;
+import com.avanesian.WorkCalendar.schedule.dto.ScheduleDTO;
+import com.avanesian.WorkCalendar.tasks.dto.TaskFullDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -15,6 +16,7 @@ public class EmployeeFullDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private List<ScheduleShortDTO> schedule = new ArrayList<>();
+    private HashMap<String, List<ScheduleDTO>> schedule = new HashMap<>();
+    private HashMap<String, List<TaskFullDTO>> tasks = new HashMap<>();
 
 }

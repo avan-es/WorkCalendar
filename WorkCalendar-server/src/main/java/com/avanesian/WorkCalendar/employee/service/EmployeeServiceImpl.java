@@ -26,24 +26,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public EmployeeSafeDTO addEmployee(Employee employee) {
-        employeeValidation.checkEmail(employee);
+    public EmployeeSafeDTO saveEmployee(Employee employee) {
+        employeeValidation.isEmailValid(employee);
         log.info(String.format("Сотрудник с ID %s и почтой %S успешно создан.", employee.getId(), employee.getEmail()));
         return EmployeeMapper.INSTANT.toEmployeeSafeDto(
                 employeeRepository.save(employee));
     }
 
-    @Override
-    public EmployeeSafeDTO getEmployeeByEmail(String email) {
-        log.info(String.format("Получение данных сотрудника с почтой %S.", email));
-        return EmployeeMapper.INSTANT.toEmployeeSafeDto(
-                employeeValidation.getEmployeeIfPresent(email));
-    }
 
     @Override
-    public void deleteEmployee(Long id) {
-        EmployeeSafeDTO employee = getEmployeeById(id);
-        employeeRepository.deleteByEmail(employee.getEmail());
+    public void deleteEmployeeById(Long id) {
+        employeeRepository.deleteById(id);
         log.info(String.format("Сотрудник с ID %s удалён.", id));
     }
 

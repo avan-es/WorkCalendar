@@ -18,12 +18,12 @@ public class AdminController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public EmployeeSafeDTO addEmployee(@Valid @RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
+    public EmployeeSafeDTO saveEmployee(@Valid @RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
     }
 
     @GetMapping
-    public List<EmployeeSafeDTO> getEmployees() {
+    public List<EmployeeSafeDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
@@ -35,12 +35,12 @@ public class AdminController {
     }
 
     @GetMapping("/{employeeId}")
-    public EmployeeSafeDTO getEmployee(@PathVariable Long employeeId) {
+    public EmployeeSafeDTO getEmployeeById(@PathVariable Long employeeId) {
         return employeeService.getEmployeeById(employeeId);
     }
 
     @DeleteMapping("/{employeeId}")
-    public void deleteEmployee(@PathVariable Long employeeId) {
-        employeeService.deleteEmployee(employeeId);
+    public void deleteEmployeeById(@PathVariable Long employeeId) {
+        employeeService.deleteEmployeeById(employeeId);
     }
 }

@@ -28,49 +28,42 @@ public class EmployeeValidation {
         return emailPattern.matcher(hex).matches();
     }
 
-    public void checkEmail(Employee employee) {
+    public boolean isEmailValid(Employee employee) {
         if (!isEmailValid(employee.getEmail())) {
             log.error(String.format("Сотрудник не создан. Ошибка в адресе почты: %s.", employee.getEmail()));
             throw new ModelValidationException(String.format("Почтовый адрес '%s' не может быть использован.",
                     employee.getEmail()));
         }
-    }
-
-    public Employee getEmployeeIfPresent(String email) {
-        Employee employee = employeeRepository.findEmployeeByEmail(email);
-        if (employee == null) {
-            log.error(String.format("Сотрудник с почтой %s не существует.", email));
-            throw new NotFoundException(String.format("Сотрудник с почтой %d не найден.", email));
-        }
-        return employee;
+        return true;
     }
 
 
     public void emailValidationForExistUser(Employee employee) {
         if (employee.getEmail() != null) {
-            checkEmail(employee);
+            isEmailValid(employee);
             if (employeeRepository.findEmployeeByEmail(employee.getEmail()) != null) {
-                Optional<Employee> employeeForUpdate = employeeRepository.findById(employee.getId());
-                if (!employeeForUpdate.get().getEmail().equals(employee.getEmail())) {
-                    isEmailBuse(employee);
+                Employee employeeForUpdate = employeeRepository.findEmployeeById(employee.getId());
+                if (!employeeForUpdate.getEmail().equals(employee.getEmail())) {
+                    isEmailFree(employee);
                 }
             }
         }
     }
 
-    private void isEmailBuse(Employee employee) {
+    private boolean isEmailFree(Employee employee) {
         if (employeeRepository.findEmployeeByEmail(employee.getEmail()) != null) {
             log.error(String.format("Сотрудник не создан. Почта %s уже занята.", employee.getEmail()));
             throw new ModelConflictException(String.format("Почтовый адрес '%s' уже занят.",
                     employee.getEmail()));
         }
+        return true;
     }
 
-    public void checkEmployeePresent(Long employeeId) {
+    public boolean isEmployeePresent(Long employeeId) {
         Employee employee = employeeRepository.findEmployeeById(employeeId);
         if (employee == null) {
             throw new NotFoundException(String.format("Сотрудник с ID %d не найден.", employeeId));
         }
+        return true;
     }
-
 }
