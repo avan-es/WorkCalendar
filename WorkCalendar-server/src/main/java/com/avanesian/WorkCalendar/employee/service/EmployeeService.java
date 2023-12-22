@@ -8,11 +8,9 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    EmployeeSafeDTO addEmployee(Employee employee);
+    EmployeeSafeDTO saveEmployee(Employee employee);
 
-    EmployeeSafeDTO getEmployeeByEmail(String email);
-
-    void deleteEmployee (Long id);
+    void deleteEmployeeById(Long id);
 
     List<EmployeeSafeDTO> getAllEmployees();
 
