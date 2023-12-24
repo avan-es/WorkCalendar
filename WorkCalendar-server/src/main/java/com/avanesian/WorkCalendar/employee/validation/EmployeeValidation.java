@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component("employeeValidation")
@@ -65,5 +64,13 @@ public class EmployeeValidation {
             throw new NotFoundException(String.format("Сотрудник с ID %d не найден.", employeeId));
         }
         return true;
+    }
+
+    public Employee getEmployeeIfPresent(Long employeeId) {
+        Employee employee = employeeRepository.findEmployeeById(employeeId);
+        if (employee == null) {
+            throw new NotFoundException(String.format("Сотрудник с ID %d не найден.", employeeId));
+        }
+        return employee;
     }
 }
