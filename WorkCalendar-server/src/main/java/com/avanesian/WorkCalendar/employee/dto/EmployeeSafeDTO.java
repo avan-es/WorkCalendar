@@ -12,4 +12,10 @@ public class EmployeeSafeDTO {
     private String lastName;
     private String email;
 
+    public EmployeeSafeDTO(Long emId, String emFn, String emLn, String email) {
+        this.id = emId;
+        this.firstName = emFn;
+        this.lastName = emLn;
+        this.email = email;
+    }
 }

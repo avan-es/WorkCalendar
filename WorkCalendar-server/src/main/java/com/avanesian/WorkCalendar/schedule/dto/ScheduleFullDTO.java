@@ -15,4 +15,11 @@ public class ScheduleFullDTO {
     private String dayType;
     private LocalDate dateSchedule;
 
+    public ScheduleFullDTO(Long scId, Long emId, String emLn, String emFn, String email, String dayType, LocalDate date) {
+        this.id = scId;
+        this.employee = new EmployeeSafeDTO(emId, emFn, emLn, email);
+        this.dayType = dayType;
+        this.dateSchedule = date;
+    };
+
 }
