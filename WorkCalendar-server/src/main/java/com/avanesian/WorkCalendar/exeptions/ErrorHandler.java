@@ -33,4 +33,12 @@ public class ErrorHandler {
                 e.getMessage());
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleForbiddenConflictException(final ForbiddenException e) {
+        return new ErrorResponse(
+                "Добавить запись не возможно.",
+                e.getMessage());
+    }
+
 }
