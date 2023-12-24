@@ -1,7 +1,7 @@
 package com.avanesian.WorkCalendar.schedule.service;
 
 import com.avanesian.WorkCalendar.schedule.dto.ScheduleFullDTO;
-import com.avanesian.WorkCalendar.schedule.dto.ScheduleDTO;
+import com.avanesian.WorkCalendar.schedule.dto.ScheduleShortDTO;
 import com.avanesian.WorkCalendar.schedule.model.Schedule;
 
 import java.time.LocalDate;
@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    ScheduleFullDTO addDayToSchedule (Schedule schedule);
+    ScheduleFullDTO saveDayToSchedule(Schedule schedule);
 
     void deleteDayFromSchedule (Long scheduleId);
 
-    ScheduleFullDTO updateDayToSchedule (ScheduleDTO schedule);
+    ScheduleFullDTO updateDayToSchedule (Long scheduleID, String newDayType);
 
     ScheduleFullDTO getDayFromScheduleById (Long scheduleId);
 
-    List<ScheduleDTO> getEmployeeSchedule(Long employeeId, LocalDate from, LocalDate to);
+    List<ScheduleShortDTO> getEmployeeSchedule(Long employeeId, LocalDate from, LocalDate to);
 
 }

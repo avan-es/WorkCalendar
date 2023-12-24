@@ -5,7 +5,6 @@ import com.avanesian.WorkCalendar.schedule.model.Days;
 import com.avanesian.WorkCalendar.schedule.model.DaysMapper;
 import com.avanesian.WorkCalendar.schedule.repository.DaysRepository;
 import com.avanesian.WorkCalendar.schedule.validation.DayValidation;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class DaysServiceImpl implements DaysService {
     @Override
     public DaysDto addDayType(Days dayType) {
         DaysMapper.INSTANT.dayTypeToUpperCase(dayType);
-        dayValidation.checkDayTypePresentByString(dayType.getDayType());
+        dayValidation.isDayTypeNameIsFree(dayType.getDayType());
         log.info(String.format("Добавление типа дня %S.", dayType.getDayType()));
         return DaysMapper.INSTANT.daysToDaysDto(
                 daysRepository.save(dayType));
