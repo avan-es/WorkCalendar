@@ -8,25 +8,20 @@ import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
-public class TaskFullDTO {
-
+public class TaskShortDTO {
     private Long id;
     private String taskName;
     private String description;
     private String status;
     private Long duration;
     private LocalDate date;
-    private EmployeeSafeDTO employee;
 
-    TaskFullDTO(Long id, String taskName, String description, String status, Long duration, LocalDate date,
-                Long emId, String firstName,  String lastName, String email) {
+    TaskShortDTO(Long id, String taskName, String description, String status, Long duration, LocalDate date) {
         this.id = id;
         this.taskName = taskName;
         this.description = description;
         this.status = status;
         this.duration = duration;
         this.date = date;
-        this.employee = new EmployeeSafeDTO(emId, firstName, lastName, email);
     }
-
 }
