@@ -29,18 +29,10 @@ public class ScheduleValidation {
 
     public boolean isSchedulePresent(Long scheduleId) {
         Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
-        if (schedule == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return schedule != null;
     }
 
     public boolean isSchedulePresent(Long employeeId, LocalDate date) {
-        if (scheduleRepository.findScheduleByEmployeeAndDate(employeeId, date) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return scheduleRepository.findScheduleByEmployeeAndDate(employeeId, date) != null;
     }
 }
